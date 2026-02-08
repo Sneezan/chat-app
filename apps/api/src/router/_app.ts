@@ -5,8 +5,8 @@ import { messagesRouter } from './messages';
 
 export const appRouter = router({
   auth: loginRouter,
-  threads: threadsRouter,
-  messages: messagesRouter,
+  thread: threadsRouter,
+  message: messagesRouter,
 });
 
 export type AppRouter = typeof appRouter;

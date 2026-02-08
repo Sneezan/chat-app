@@ -12,7 +12,6 @@ async function main() {
       create: { username, password },
     });
   }
-  console.log('Seeded users:', USERS.join(', '), '(password: password)');
 
   const oscar = await db.user.findUnique({ where: { username: 'oscar' } });
   const alice = await db.user.findUnique({ where: { username: 'alice' } });
@@ -46,7 +45,7 @@ async function main() {
           { threadId: thread.id, senderId: alice.id, content: 'Good, you?' },
         ],
       });
-      console.log('Seeded thread: Oscar <-> Alice with 4 messages');
+      console.log('Seeded thread: Oscar & Alice with 4 start messages');
     }
   }
 }

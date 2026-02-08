@@ -1,16 +1,14 @@
-import { StrictMode, useState } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { trpc, createTRPCClient } from './trpc';
-import './index.css';
+import { trpc, trpcClient } from './trpc';
 import App from './App.tsx';
+import './index.css';
 
 const queryClient = new QueryClient();
 
 export default function Root() {
-  const [trpcClient] = useState(() => createTRPCClient());
-
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>

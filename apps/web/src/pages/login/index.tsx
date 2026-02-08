@@ -1,21 +1,20 @@
 import { useState } from 'react';
 import { TRPCClientError } from '@trpc/client';
 import { trpc } from '../../trpc';
-import { useNavigate } from 'react-router-dom';
 
 const TOKEN_KEY = 'token';
 
-export default function Login() {
+type Props = { onSuccess?: () => void };
+
+export default function Login({ onSuccess }: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const navigate = useNavigate();
-
   const login = trpc.auth.login.useMutation({
-    onSuccess: (res) => {
+    onSuccess: (res: { token: string }) => {
       localStorage.setItem(TOKEN_KEY, res.token);
-      navigate('/chat');
+      onSuccess?.();
     },
     onError: (err: unknown) => {
       setError(err instanceof TRPCClientError ? err.message : 'Login failed');
@@ -61,7 +60,7 @@ export default function Login() {
         <button
           type="submit"
           disabled={disabled}
-          className="w-full bg-blue-600 text-white rounded py-2 disabled:opacity-50"
+          className="w-full bg-cyan-600 text-white rounded py-2 disabled:opacity-50"
         >
           {login.isPending ? '…' : 'Log in'}
         </button>
