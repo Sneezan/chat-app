@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                 Int                 @id @default(autoincrement())
+  username           String              @unique
+  password           String
+  messages           Message[]
+  threadParticipants ThreadParticipant[]
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  senderId  Int
+  threadId  Int
+
+  sender User   @relation(fields: [senderId], references: [id])
+  thread Thread @relation(fields: [threadId], references: [id])
+
+  @@index([threadId, createdAt])
+}
+
+model Thread {
+  id           Int                 @id @default(autoincrement())
+  participants ThreadParticipant[]
+  messages     Message[]
+  createdAt    DateTime            @default(now())
+}
+
+model ThreadParticipant {
+  threadId Int
+  userId   Int
+
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([threadId, userId])
+}
