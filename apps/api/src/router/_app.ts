@@ -1,7 +1,12 @@
-import { router } from "../trpc";
+import { router } from '../trpc';
+import { loginRouter } from './login';
+import { threadsRouter } from './threads';
+import { messagesRouter } from './messages';
 
 export const appRouter = router({
-// todo auth, thread & message
+  auth: loginRouter,
+  threads: threadsRouter,
+  messages: messagesRouter,
 });
 
 export type AppRouter = typeof appRouter;
