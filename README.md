@@ -1,6 +1,11 @@
 # Chat app
 
-A small messaging app (DMs, threads) built with React, tRPC, and PostgreSQL.
+A small protoype of messaging app (DMs & threads) built with React, tRPC, and PostgreSQL.
+
+
+ ### Preview
+ <img width="724" height="600" alt="Screenshot 2026-02-08 at 19 06 48 (2)" src="https://github.com/user-attachments/assets/ea0c79dc-92f4-426b-9b93-b32a01f5691a" />
+
 
 ## Technologies used
 
@@ -104,3 +109,4 @@ chat-app/
 
    API: http://localhost:3000  
    Web: http://localhost:5173 (or the port Vite prints). Log in with any seeded user.
+
