@@ -12,7 +12,7 @@ export default function Login({ onSuccess }: Props) {
   const [error, setError] = useState('');
 
   const login = trpc.auth.login.useMutation({
-    onSuccess: (res: { token: string }) => {
+    onSuccess: (res) => {
       localStorage.setItem(TOKEN_KEY, res.token);
       onSuccess?.();
     },

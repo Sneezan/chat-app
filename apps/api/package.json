@@ -7,8 +7,7 @@
   },
   "main": "index.js",
   "exports": {
-    "./router": "./src/router/_app.ts",
-    "./app-router": "./src/router/app-router.ts"
+    "./router": "./src/router/_app.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

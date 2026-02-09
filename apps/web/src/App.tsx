@@ -31,7 +31,7 @@ export default function App() {
             setToken(null);
             window.dispatchEvent(new Event('storage'));
           }}
-          className="text-sm text-grey-400 hover:text-cyan-600"
+          className="text-sm text-gray-400 hover:text-cyan-600"
         >
           <LogOut className="w-6 h-6 cursor-pointer" />
         </button>

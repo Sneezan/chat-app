@@ -12,7 +12,7 @@ export const Chat = () => {
   const { data: threads = [], refetch: refetchThreads } =
     trpc.thread.list.useQuery(undefined, { refetchInterval: 3000 });
   const createThread = trpc.thread.create.useMutation({
-    onSuccess: (thread: { id: number }) => {
+    onSuccess: (thread) => {
       refetchThreads();
       setSelectedThreadId(thread.id);
       setNewUsername('');
@@ -79,32 +79,26 @@ export const Chat = () => {
           </div>
         </form>
         <ul className="flex-1 overflow-y-auto py-1">
-          {threads.map(
-            (t: {
-              id: number;
-              otherUsername: string;
-              lastMessage: { content: string } | null;
-            }) => (
-              <li key={t.id}>
-                <button
-                  type="button"
-                  onClick={() => setSelectedThreadId(t.id)}
-                  className={`w-full text-left px-4 py-3 min-h-[4.5rem] flex flex-col justify-center border-b border-gray-100 transition-colors duration-150 ${
-                    selectedThreadId === t.id
-                      ? 'bg-cyan-50/80 border-l-4 border-l-cyan-600 text-cyan-900'
-                      : 'border-l-4 border-l-transparent text-gray-800 hover:bg-sky-50/80 hover:border-l-sky-400/80'
-                  }`}
-                >
-                  <span className="font-semibold capitalize block truncate">
-                    {t.otherUsername}
-                  </span>
-                  <p className="text-xs text-gray-500 truncate mt-0.5 min-h-[1.25rem]">
-                    {t.lastMessage ? t.lastMessage.content : ''}
-                  </p>
-                </button>
-              </li>
-            )
-          )}
+          {threads.map((t) => (
+            <li key={t.id}>
+              <button
+                type="button"
+                onClick={() => setSelectedThreadId(t.id)}
+                className={`w-full text-left px-4 py-3 min-h-[4.5rem] flex flex-col justify-center border-b border-gray-100 transition-colors duration-150 ${
+                  selectedThreadId === t.id
+                    ? 'bg-cyan-50/80 border-l-4 border-l-cyan-600 text-cyan-900'
+                    : 'border-l-4 border-l-transparent text-gray-800 hover:bg-sky-50/80 hover:border-l-sky-400/80'
+                }`}
+              >
+                <span className="font-semibold capitalize block truncate">
+                  {t.otherUsername}
+                </span>
+                <p className="text-xs text-gray-500 truncate mt-0.5 min-h-[1.25rem]">
+                  {t.lastMessage ? t.lastMessage.content : ''}
+                </p>
+              </button>
+            </li>
+          ))}
         </ul>
       </aside>
 
@@ -112,43 +106,34 @@ export const Chat = () => {
         {selectedThreadId ? (
           <>
             <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
-              {messages.map(
-                (m: {
-                  id: number;
-                  content: string;
-                  sender: { id: number; username: string };
-                  createdAt: string;
-                }) => {
-                  const isMe = currentUser && m.sender.id === currentUser.id;
-                  return (
+              {messages.map((m) => {
+                const isMe = currentUser && m.sender.id === currentUser.id;
+                return (
+                  <div
+                    key={m.id}
+                    className={`flex flex-col max-w-[85%] rounded-2xl px-4 py-2.5 shadow-sm ${
+                      isMe
+                        ? 'self-end bg-cyan-600 text-white shadow-cyan-900/20'
+                        : 'self-start bg-white text-gray-800 border border-gray-100 shadow-gray-200/50'
+                    }`}
+                  >
                     <div
-                      key={m.id}
-                      className={`flex flex-col max-w-[85%] rounded-2xl px-4 py-2.5 shadow-sm ${
-                        isMe
-                          ? 'self-end bg-cyan-600 text-white shadow-cyan-900/20'
-                          : 'self-start bg-white text-gray-800 border border-gray-100 shadow-gray-200/50'
-                      }`}
+                      className={`text-xs font-medium capitalize flex items-center gap-2 flex-wrap ${isMe ? 'text-cyan-100' : 'text-gray-500'}`}
                     >
-                      <div
-                        className={`text-xs font-medium capitalize flex items-center gap-2 flex-wrap ${isMe ? 'text-cyan-100' : 'text-gray-500'}`}
+                      <span>{m.sender.username}</span>
+                      <span
+                        className={isMe ? 'text-cyan-200/90' : 'text-gray-400'}
                       >
-                        <span>{m.sender.username}</span>
-                        <span
-                          className={
-                            isMe ? 'text-cyan-200/90' : 'text-gray-400'
-                          }
-                        >
-                          {new Date(m.createdAt).toLocaleTimeString('en-US', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </span>
-                      </div>
-                      <span className="mt-1 break-words">{m.content}</span>
+                        {new Date(m.createdAt).toLocaleTimeString('en-US', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </span>
                     </div>
-                  );
-                }
-              )}
+                    <span className="mt-1 break-words">{m.content}</span>
+                  </div>
+                );
+              })}
               <div ref={feedEndRef} />
             </div>
             <form
