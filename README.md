@@ -1,6 +1,6 @@
 # Chat app
 
-A small protoype of messaging app (DMs & threads) built with React, tRPC, and PostgreSQL.
+A small prototype of a messaging app (DMs & threads) built with React, tRPC, and PostgreSQL.
 
 ### Preview
 
@@ -64,13 +64,15 @@ chat-app/
 
 **Prerequisites:** Node > v.20, pnpm, Docker (for Postgres).
 
-1. **Clone and install**
+1. **Clone and install**  
+   From the repo root:
 
    ```bash
    pnpm install
    ```
 
-2. **Start Postgres**
+2. **Start Postgres**  
+   From the repo root:
 
    ```bash
    docker-compose up -d
@@ -106,7 +108,7 @@ chat-app/
    pnpm --filter api seed
    ```
 
-   Seeded users: **oliver**, **greg**, **alice**, **oscar** — password for all: **password**.
+   Seeded users: **oliver**, **greg**, **alice**, **oscar** — password for all: **password**. You’ll also get one demo thread (Oscar & Alice with a few messages).
 
 7. **Start API and web**
    From the repo root:
