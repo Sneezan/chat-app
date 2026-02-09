@@ -2,10 +2,9 @@
 
 A small protoype of messaging app (DMs & threads) built with React, tRPC, and PostgreSQL.
 
+### Preview
 
- ### Preview
  <img width="724" height="600" alt="Screenshot 2026-02-08 at 19 06 48 (2)" src="https://github.com/user-attachments/assets/ea0c79dc-92f4-426b-9b93-b32a01f5691a" />
-
 
 ## Technologies used
 
@@ -91,7 +90,16 @@ chat-app/
    cd apps/api && npx prisma migrate deploy
    ```
 
-5. **Seed users (required)**
+5. **Generate Prisma client**
+   The API uses a custom client output; generate it before seeding or running the app. From the repo root:
+
+   ```bash
+   pnpm --filter api exec prisma generate
+   ```
+
+   Run this again after cloning, after changing `schema.prisma`, or after a fresh DB.
+
+6. **Seed users (required)**
    The app has no sign-up; logins use seeded users. Run the seed once (and after a fresh DB). From the repo root:
 
    ```bash
@@ -100,7 +108,7 @@ chat-app/
 
    Seeded users: **oliver**, **greg**, **alice**, **oscar** — password for all: **password**.
 
-6. **Start API and web**
+7. **Start API and web**
    From the repo root:
 
    ```bash
@@ -109,4 +117,3 @@ chat-app/
 
    API: http://localhost:3000  
    Web: http://localhost:5173 (or the port Vite prints). Log in with any seeded user.
-
