@@ -1,4 +1,4 @@
-# Chat app
+# Real time chat app with SSE
 
 A small prototype of a real-time messaging app (DMs & threads) built with React, tRPC SSE, and PostgreSQL. 
 
