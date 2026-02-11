@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
+import { toThreadListUpdateIterable } from '../events.js';
 import { protectedProcedure, router } from '../trpc.js';
 
 export const threadsRouter = router({
@@ -60,4 +61,11 @@ export const threadsRouter = router({
       });
       return thread;
     }),
+
+  onThreadListUpdate: protectedProcedure.subscription(async function* (opts) {
+    const iterable = toThreadListUpdateIterable(opts.ctx.user.id, opts.signal);
+    for await (const _ of iterable) {
+      yield null;
+    }
+  }),
 });

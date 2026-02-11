@@ -15,6 +15,7 @@ A small prototype of a messaging app (DMs & threads) built with React, tRPC, and
 | **API**        | tRPC (end-to-end type-safe)                                                                               |
 | **Database**   | PostgreSQL, Prisma ORM                                                                                    |
 | **Auth**       | JWT (jose), bcrypt                                                                                        |
+| **Real-time**  | Server-Sent Events (SSE) via tRPC subscriptions                                                          |
 | **Validation** | Zod                                                                                                       |
 | **Monorepo**   | pnpm workspaces                                                                                           |
 
@@ -28,6 +29,7 @@ chat-app/
 │   │   │   ├── migrations/
 │   │   │   └── schema.prisma
 │   │   ├── src/
+│   │   │   ├── events.ts      # SSE event emitter for real-time messages
 │   │   │   ├── router/        # tRPC routes
 │   │   │   │   ├── _app.ts    # Root router (auth, thread, message)
 │   │   │   │   ├── login.ts

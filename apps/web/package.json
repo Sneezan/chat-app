@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "api": "workspace:*",
+    "event-source-polyfill": "^1.0.31",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-query": "^5.62.0",
     "@trpc/client": "^11.0.0",

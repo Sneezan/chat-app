@@ -15,7 +15,13 @@ export const createContext = async ({ req, res }: CreateExpressContextOptions) =
 
 export type Context = Awaited<ReturnType<typeof createContext>>;
 
-const t = initTRPC.context<Context>().create();
+const t = initTRPC
+  .context<Context>()
+  .create({
+    sse: {
+      ping: { enabled: true, intervalMs: 2000 },
+    },
+  });
 export const router = t.router;
 export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
