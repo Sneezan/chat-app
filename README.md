@@ -1,6 +1,6 @@
 # Chat app
 
-A small prototype of a messaging app (DMs & threads) built with React, tRPC, and PostgreSQL.
+A small prototype of a real-time messaging app (DMs & threads) built with React, tRPC SSE, and PostgreSQL. 
 
 ### Preview
 
