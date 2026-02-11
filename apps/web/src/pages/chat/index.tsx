@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { skipToken } from '@tanstack/react-query';
 import { trpc } from '../../trpc';
 import { PlusIcon, SendIcon } from 'lucide-react';
 
@@ -10,7 +11,11 @@ export const Chat = () => {
 
   const { data: currentUser } = trpc.auth.me.useQuery();
   const { data: threads = [], refetch: refetchThreads } =
-    trpc.thread.list.useQuery(undefined, { refetchInterval: 3000 });
+    trpc.thread.list.useQuery(undefined);
+
+  trpc.thread.onThreadListUpdate.useSubscription(undefined, {
+    onData: () => refetchThreads(),
+  });
   const createThread = trpc.thread.create.useMutation({
     onSuccess: (thread) => {
       refetchThreads();
@@ -22,11 +27,19 @@ export const Chat = () => {
   const { data: messages = [], refetch: refetchMessages } =
     trpc.message.list.useQuery(
       { threadId: selectedThreadId! },
-      {
-        enabled: selectedThreadId != null,
-        refetchInterval: 3000,
-      }
+      { enabled: selectedThreadId != null }
     );
+
+  trpc.message.onNewMessage.useSubscription(
+    selectedThreadId != null ? { threadId: selectedThreadId } : skipToken,
+    {
+      onData: () => {
+        refetchMessages();
+        refetchThreads();
+      },
+    }
+  );
+
   const sendMessage = trpc.message.send.useMutation({
     onSuccess: () => {
       refetchMessages();
