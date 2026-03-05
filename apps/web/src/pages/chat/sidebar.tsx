@@ -1,5 +1,5 @@
 import type React from 'react';
-import { PlusIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, PlusIcon } from 'lucide-react';
 
 type Thread = {
   id: number;
@@ -27,9 +27,11 @@ export const Sidebar = ({
   isCreatingThread,
   isCollapsed,
   onToggleCollapsed,
+  canCollapse = true,
 }: SidebarProps & {
   isCollapsed: boolean;
   onToggleCollapsed: () => void;
+  canCollapse?: boolean;
 }) => {
   const getInitial = (name: string) => {
     const trimmed = name.trim();
@@ -39,10 +41,10 @@ export const Sidebar = ({
   return (
     <aside
       className={`relative group border-r border-gray-200 flex flex-col bg-gradient-to-b from-gray-50 to-white shrink-0 ${
-        isCollapsed ? 'w-16' : 'w-62'
+        canCollapse ? (isCollapsed ? 'w-16' : 'w-62') : 'w-full'
       }`}
     >
-      {isCollapsed ? (
+      {isCollapsed && canCollapse ? (
         <div className="p-3 border-b border-gray-200 flex justify-center">
           <button
             type="button"
@@ -104,14 +106,20 @@ export const Sidebar = ({
           </li>
         ))}
       </ul>
-      <button
-        type="button"
-        onClick={onToggleCollapsed}
-        className="absolute -right-2 top-1/2 -translate-y-1/2 w-5 h-10 flex items-center justify-center rounded-full bg-white border border-gray-300 text-gray-400 shadow-sm opacity-0 group-hover:opacity-100 hover:text-gray-600 hover:bg-gray-50 hover:cursor-pointer transition-all"
-        aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-      >
-        {isCollapsed ? '›' : '‹'}
-      </button>
+      {canCollapse && (
+        <button
+          type="button"
+          onClick={onToggleCollapsed}
+          className="absolute -right-2 top-1/2 -translate-y-1/2 w-5 h-10 flex items-center justify-center rounded-full bg-white  text-gray-400 shadow-sm opacity-0 group-hover:opacity-100 hover:text-gray-600 hover:bg-gray-50 hover:cursor-pointer transition-all"
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          {isCollapsed ? (
+            <ChevronRight className="w-4 h-4" />
+          ) : (
+            <ChevronLeft className="w-4 h-4" />
+          )}
+        </button>
+      )}
     </aside>
   );
 };
