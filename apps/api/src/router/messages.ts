@@ -64,7 +64,10 @@ export const messagesRouter = router({
     .subscription(async function* (opts) {
       const participant = await opts.ctx.db.threadParticipant.findUnique({
         where: {
-          threadId_userId: { threadId: opts.input.threadId, userId: opts.ctx.user.id },
+          threadId_userId: {
+            threadId: opts.input.threadId,
+            userId: opts.ctx.user.id,
+          },
         },
       });
       if (!participant) throw new TRPCError({ code: 'FORBIDDEN' });
@@ -73,7 +76,7 @@ export const messagesRouter = router({
 
       for await (const [threadId, message] of iterable) {
         if (threadId !== opts.input.threadId) continue;
-        yield tracked(message.id, message);
+        yield tracked(message.id.toString(), message);
       }
     }),
 });
