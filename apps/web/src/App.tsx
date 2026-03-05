@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { LogOut } from 'lucide-react';
 import Login from './pages/login';
 import { Chat } from './pages/chat';
+import { trpc } from './trpc';
 
 const TOKEN_KEY = 'token';
 
@@ -10,7 +11,7 @@ export default function App() {
     localStorage.getItem(TOKEN_KEY)
   );
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-
+  const { data: currentUser } = trpc.auth.me.useQuery();
   useEffect(() => {
     const onStorage = () => setToken(localStorage.getItem(TOKEN_KEY));
     window.addEventListener('storage', onStorage);
@@ -26,7 +27,9 @@ export default function App() {
     <div className="min-h-screen flex flex-col">
       {isHeaderVisible && (
         <div className="flex justify-between items-center mb-4 shrink-0 px-4 pt-4 sm:px-4">
-          <h1 className="text-xl font-semibold">Chat</h1>
+          <h1 className="text-xl font-semibold capitalize">
+            Welcome back, {currentUser?.username}!
+          </h1>
           <button
             onClick={() => {
               localStorage.removeItem(TOKEN_KEY);

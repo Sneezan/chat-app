@@ -96,26 +96,13 @@ export const Feed = ({
           return (
             <div
               key={m.id}
-              className={`flex flex-col max-w-[85%] rounded-2xl px-4 py-2.5 shadow-sm ${
+              className={`flex flex-col max-w-[85%] rounded-2xl px-4 py-2 shadow-sm ${
                 isMe
                   ? 'self-end bg-cyan-600 text-white shadow-cyan-900/20'
                   : 'self-start bg-white text-gray-800 border border-gray-100 shadow-gray-200/50'
               }`}
             >
-              <div
-                className={`text-xs font-medium capitalize flex items-center gap-2 flex-wrap ${
-                  isMe ? 'text-cyan-100' : 'text-gray-500'
-                }`}
-              >
-                <span>{m.sender.username}</span>
-                <span className={isMe ? 'text-cyan-200/90' : 'text-gray-400'}>
-                  {new Date(m.createdAt).toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </span>
-              </div>
-              <span className="mt-1 break-words">{m.content}</span>
+              <span className="break-words">{m.content}</span>
             </div>
           );
         })}
